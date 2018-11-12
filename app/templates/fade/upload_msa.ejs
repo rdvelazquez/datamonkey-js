@@ -1,25 +1,12 @@
 <%- include ../includes/header.ejs %>
 
 <div id="container" class="container">
-<h3>COMING SOON!</h3>
+ <%- include header.ejs %>
+  <div id="upload-form"></div>
 </div>
-
-<%- include ../includes/footer.ejs %>
-<script src="/assets/js/fade/msa_form.js"></script>
-
 <script>
-
-  // set shared attributes on helper_text element
-  $(".helper_text").attr("data-container", "body")
-      .attr("data-toggle", "popover")
-      .attr("data-trigger", "hover click")
-      .attr("data-placement", "bottom")
-      .attr("data-html", "true");
-
-
-  // initialize helper toggles
-  $(function() {
-      $('[data-toggle="popover"]').popover()
-  });
-
+  fade_form();
 </script>
+<%- include ../includes/footer.ejs %>
+
+

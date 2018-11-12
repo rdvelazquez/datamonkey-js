@@ -13,7 +13,7 @@ var GARDForm = React.createClass({
     var file = document.getElementById("seq-file").files[0];
 
     formData.append("files", file);
-    formData.append("datatype", $("select[name='datatype']").val());
+    formData.append("atatype", $("select[name='datatype']").val());
     formData.append("gencodeid", $("select[name='gencodeid']").val());
 
     formData.append(

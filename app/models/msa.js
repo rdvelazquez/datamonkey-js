@@ -60,6 +60,7 @@ var Msa = new Schema({
   rawsites: Number,
   sequences: Number,
   gencodeid: Number,
+  substitutionModel: Number,
   goodtree: Number,
   nj: String,
   usertree: String,
@@ -238,12 +239,20 @@ Msa.methods.aminoAcidTranslation = function(cb, options) {
   );
 };
 
-Msa.methods.dataReader = function(file, datatype, cb) {
+Msa.methods.dataReader = function(file, datatype, substitutionModel, cb) {
   // Skip the datareader batch file for fastq and non-coding DNA/RNA files.
-  if (file.indexOf("fastq") != -1 || datatype == 1) {
+  console.log(
+    "msa.methods.dataReader... substitutionModel: ",
+    substitutionModel
+  );
+  if (
+    file.indexOf("fastq") != -1 ||
+    datatype >= 1 ||
+    substitutionModel != null
+  ) {
     // TODO: Support FASTQ
-    // TODO: Provide validation for non-coding DRA/RNA files. Currently skipping the datareader batch file for these
-    // to avoid errors if not multiple of 3 or stop codons.
+    // TODO: Provide validation for non-coding DRA/RNA files and Protien Files. Currently skipping the datareader batch file for these
+    // to avoid errors if not multiple of 3 or stop codons and because the datareader batch file is only for codon data and throws an error for AA data.
     var result = {};
     result.FILE_INFO = {};
     result.FILE_PARTITION_INFO = [];
@@ -251,6 +260,7 @@ Msa.methods.dataReader = function(file, datatype, cb) {
 
     result.FILE_INFO.partitions = -1;
     result.FILE_INFO.gencodeid = -1;
+    result.FILE_INFO.substitutionModel = -1;
     result.FILE_INFO.sites = -1;
     result.FILE_INFO.sequences = -1;
     result.FILE_INFO.timestamp = -1;
@@ -362,14 +372,20 @@ Msa.statics.validateFasta = function(fn, cb, options) {
   );
 };
 
-Msa.statics.parseFile = function(fn, datatype, gencodeid, cb) {
+Msa.statics.parseFile = function(
+  fn,
+  datatype,
+  substitutionModel,
+  gencodeid,
+  cb
+) {
   var msa = new this();
   msa.datatype = datatype;
   msa.gencodeid = gencodeid;
 
   // convert all uploaded files to NEXUS
 
-  msa.dataReader(fn, datatype, function(err, result) {
+  msa.dataReader(fn, datatype, substitutionModel, function(err, result) {
     if (err) {
       logger.error(err);
       cb(err, null);

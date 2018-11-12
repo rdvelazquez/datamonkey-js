@@ -15,7 +15,7 @@ function ErrorMessage(props) {
   );
 }
 
-class FUBARForm extends React.Component {
+class FADEForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,6 +30,7 @@ class FUBARForm extends React.Component {
     this.onLengthChange = this.onLengthChange.bind(this);
     this.onBurninChange = this.onBurninChange.bind(this);
     this.onSampleChange = this.onSampleChange.bind(this);
+    console.log("constructor");
   }
 
   onMailChange() {
@@ -105,6 +106,7 @@ class FUBARForm extends React.Component {
     }
   }
   submit(e) {
+    console.log("submit");
     e.preventDefault();
 
     $("#file-progress").removeClass("hidden");
@@ -114,7 +116,8 @@ class FUBARForm extends React.Component {
 
     formData.append("files", file);
     formData.append("datatype", $("select[name='datatype']").val());
-    formData.append("gencodeid", $("select[name='gencodeid']").val());
+    //formData.append("substitutionModel", $("select[name='substitutionModel']").val());
+    formData.append("gencodeid_off", $("select[name='gencodeid']").val());
     formData.append("receive_mail", $("input[name='mail']").val().length > 0);
     formData.append("mail", $("input[name='mail']").val());
     formData.append("number_of_grid_points", $("#number_of_grid_points").val());
@@ -132,7 +135,7 @@ class FUBARForm extends React.Component {
 
     var xhr = new XMLHttpRequest();
 
-    xhr.open("post", "/fubar", true);
+    xhr.open("post", "/fade", true);
 
     xhr.upload.onprogress = function(e) {
       if (e.lengthComputable) {
@@ -150,9 +153,12 @@ class FUBARForm extends React.Component {
     xhr.onload = function(res) {
       // Replace field with green text, name of file
       var result = JSON.parse(this.responseText);
-      console.log("this.response: ", this.response);
+      console.log("responseText: ", this.responseText);
 
+      console.log("onload_update");
+      console.log("result: ", result);
       if (_.has(result, "error")) {
+        console.log("has, error");
         $("#modal-error-msg").text(result.error);
         $("#errorModal").modal();
         $("#file-progress").css("display", "none");
@@ -176,6 +182,7 @@ class FUBARForm extends React.Component {
         $(".progress .progress-bar").css("width", "0%");
       }
     };
+    console.log("postLoad");
 
     xhr.send(formData);
   }
@@ -210,6 +217,23 @@ class FUBARForm extends React.Component {
         </div>
 
         <div className="upload-div">
+          <label id="substitutionModel-content">Substitution Model</label>
+          <select name="substitutionModel">
+            <option value="0">LG</option>
+            <option value="1">WAG</option>
+            <option value="2">JTT</option>
+            <option value="3">JC69</option>
+            <option value="4">mtMet</option>
+            <option value="5">mtVer</option>
+            <option value="6">mtINV</option>
+            <option value="7">gcpREV</option>
+            <option value="8">HIVBm</option>
+            <option value="9">HIVWm</option>
+            <option value="10">GTR</option>
+          </select>
+        </div>
+
+        <div className="upload-div">
           <label id="geneticcode-content">
             Genetic code
             <a href="/help#genetic-code" target="_blank">
@@ -218,31 +242,20 @@ class FUBARForm extends React.Component {
           </label>
           <select name="gencodeid">
             <option value="0">Universal code</option>
-
             <option value="1">Vertebrate mitochondrial DNA code</option>
-
             <option value="2">Yeast mitochondrial DNA code</option>
-
             <option value="3">
               Mold, Protozoan and Coelenterate mt; Mycloplasma/Spiroplasma
             </option>
-
             <option value="4">Invertebrate mitochondrial DNA code</option>
-
             <option value="5">
               Ciliate, Dasycladacean and Hexamita Nuclear code
             </option>
-
             <option value="6">Echinoderm mitochondrial DNA code</option>
-
             <option value="7">Euplotid Nuclear code</option>
-
             <option value="8">Alternative Yeast Nuclear code</option>
-
             <option value="9">Ascidian mitochondrial DNA code</option>
-
             <option value="10">Flatworm mitochondrial DNA code</option>
-
             <option value="11">Blepharisma Nuclear code</option>
           </select>
         </div>
@@ -376,11 +389,11 @@ class FUBARForm extends React.Component {
   }
 }
 
-function render_fubar_form() {
+function render_fade_form() {
   ReactDOM.render(
-    <FUBARForm post_to={"fubar"} />,
+    <FADEForm post_to={"fade"} />,
     document.getElementById("upload-form")
   );
 }
 
-module.exports = render_fubar_form;
+module.exports = render_fade_form;
