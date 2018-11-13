@@ -14,6 +14,7 @@ var mongoose = require("mongoose"),
   MEME = mongoose.model("MEME"),
   Relax = mongoose.model("Relax"),
   HivTrace = mongoose.model("HivTrace"),
+  Fade = mongoose.model("Fade"),
   SLAC = mongoose.model("SLAC");
 
 module.exports = function(app) {
