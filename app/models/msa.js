@@ -60,7 +60,7 @@ var Msa = new Schema({
   rawsites: Number,
   sequences: Number,
   gencodeid: Number,
-  substitutionModel: Number,
+  //substitutionModel: Number,
   goodtree: Number,
   nj: String,
   usertree: String,
@@ -239,17 +239,9 @@ Msa.methods.aminoAcidTranslation = function(cb, options) {
   );
 };
 
-Msa.methods.dataReader = function(file, datatype, substitutionModel, cb) {
+Msa.methods.dataReader = function(file, datatype, cb) {
   // Skip the datareader batch file for fastq and non-coding DNA/RNA files.
-  console.log(
-    "msa.methods.dataReader... substitutionModel: ",
-    substitutionModel
-  );
-  if (
-    file.indexOf("fastq") != -1 ||
-    datatype >= 1 ||
-    substitutionModel != null
-  ) {
+  if (file.indexOf("fastq") != -1 || datatype >= 1) {
     // TODO: Support FASTQ
     // TODO: Provide validation for non-coding DRA/RNA files and Protien Files. Currently skipping the datareader batch file for these
     // to avoid errors if not multiple of 3 or stop codons and because the datareader batch file is only for codon data and throws an error for AA data.
@@ -260,7 +252,7 @@ Msa.methods.dataReader = function(file, datatype, substitutionModel, cb) {
 
     result.FILE_INFO.partitions = -1;
     result.FILE_INFO.gencodeid = -1;
-    result.FILE_INFO.substitutionModel = -1;
+    //result.FILE_INFO.substitutionModel = -1;
     result.FILE_INFO.sites = -1;
     result.FILE_INFO.sequences = -1;
     result.FILE_INFO.timestamp = -1;
@@ -375,7 +367,7 @@ Msa.statics.validateFasta = function(fn, cb, options) {
 Msa.statics.parseFile = function(
   fn,
   datatype,
-  substitutionModel,
+  //substitutionModel,
   gencodeid,
   cb
 ) {
@@ -385,7 +377,7 @@ Msa.statics.parseFile = function(
 
   // convert all uploaded files to NEXUS
 
-  msa.dataReader(fn, datatype, substitutionModel, function(err, result) {
+  msa.dataReader(fn, datatype, function(err, result) {
     if (err) {
       logger.error(err);
       cb(err, null);
