@@ -14,7 +14,8 @@ var FUBAR = AnalysisSchema.extend({
   length_of_each_chain: Number,
   number_of_burn_in_samples: Number,
   number_of_samples: Number,
-  concentration_of_dirichlet_prior: Number
+  concentration_of_dirichlet_prior: Number,
+  posterior_estimation_method: Number
 });
 
 FUBAR.virtual("pmid").get(function() {

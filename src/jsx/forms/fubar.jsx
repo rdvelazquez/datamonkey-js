@@ -115,6 +115,10 @@ class FUBARForm extends React.Component {
     formData.append("files", file);
     formData.append("datatype", $("select[name='datatype']").val());
     formData.append("gencodeid", $("select[name='gencodeid']").val());
+    formData.append(
+      "posterior_estimation_method",
+      $("select[name='posterior_estimation_method']").val()
+    );
     formData.append("receive_mail", $("input[name='mail']").val().length > 0);
     formData.append("mail", $("input[name='mail']").val());
     formData.append("number_of_grid_points", $("#number_of_grid_points").val());
@@ -243,6 +247,25 @@ class FUBARForm extends React.Component {
             <option value="10">Flatworm mitochondrial DNA code</option>
 
             <option value="11">Blepharisma Nuclear code</option>
+          </select>
+        </div>
+
+        <div className="upload-div">
+          <label id="posterior_estimation_method-content">
+            Posterior Estimation Method
+          </label>
+          <select name="posterior_estimation_method">
+            <option value="1">
+              Metropolis-Hastings - Full Metropolis-Hastings MCMC algorithm
+              (slowest, original 2013 paper implementation)
+            </option>
+            <option value="2">
+              Collapsed Gibbs - Collapsed Gibbs sampler (intermediate speed)
+            </option>
+            <option value="3">
+              Variational Bayes - 0-th order Variational Bayes approximations
+              (fastest, recommended default)
+            </option>
           </select>
         </div>
 
