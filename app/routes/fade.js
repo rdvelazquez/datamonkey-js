@@ -32,7 +32,7 @@ exports.invoke = function(req, res) {
     fade = new FADE(),
     postdata = req.body,
     datatype = 2,
-    gencodeid = postdata.gencodeid;
+    gencodeid = 1;
 
   fade.mail = postdata.mail;
 
@@ -70,6 +70,8 @@ exports.invoke = function(req, res) {
     fade.number_of_samples = postdata.number_of_samples;
     fade.concentration_of_dirichlet_prior =
       postdata.concentration_of_dirichlet_prior;
+    fade.substitution_model = postdata.substitution_model;
+    fade.posterior_estimation_method = postdata.posterior_estimation_method;
 
     fade.save(function(err, fade_result) {
       if (err) {

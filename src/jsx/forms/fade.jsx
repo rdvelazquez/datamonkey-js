@@ -116,10 +116,13 @@ class FADEForm extends React.Component {
 
     formData.append("files", file);
     formData.append("datatype", 2); // fade only accepts protien data
-    formData.append("substitution_model", $("#substitution_model").val());
+    formData.append(
+      "substitution_model",
+      $("select[name='substitution_model']").val()
+    );
     formData.append(
       "posterior_estimation_method",
-      $("#posterior_estimation_method").val()
+      $("select[name='posterior_estimation_method']").val()
     );
     //formData.append("gencodeid", $("select[name='gencodeid']").val());
     formData.append("receive_mail", $("input[name='mail']").val().length > 0);
@@ -183,7 +186,6 @@ class FADEForm extends React.Component {
       }
     };
 
-    console.log("formData: ", formData);
     xhr.send(formData);
   }
 
@@ -198,8 +200,8 @@ class FADEForm extends React.Component {
         method="post"
         action={this.props.post_to}
       >
-        Uploaded file must contain both an amino acid multiple sequence and a
-        rooted tree
+        Uploaded file must contain both an amino acid multiple sequence
+        alignment and a rooted tree
         <div id="seq-file-div" className="upload-div">
           <input id="seq-file" type="file" name="files" />
           <div
@@ -262,11 +264,7 @@ class FADEForm extends React.Component {
         <label id="posterior_estimation_method_content">
           Posterior Estimation Method
         </label>
-        <select
-          name="posterior_estimation_method"
-          defaultValue="3"
-          onChange={this.handleChange}
-        >
+        <select name="posterior_estimation_method" defaultValue="3">
           <option value="1">
             Metropolis-Hastings - Full Metropolis-Hastings MCMC algorithm
             (slowest, original 2013 paper implementation)
