@@ -31,7 +31,7 @@ exports.invoke = function(req, res) {
   var fn = req.files.files.file,
     fade = new FADE(),
     postdata = req.body,
-    datatype = 0,
+    datatype = 2,
     gencodeid = postdata.gencodeid;
 
   fade.mail = postdata.mail;
